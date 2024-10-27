@@ -40,20 +40,17 @@
             align-items: center;
             width: 300px; /* Фиксированная ширина карточек */
             margin: 0 10px; /* Убираем отступы между карточками */
-            overflow-wrap: break-word; /* Перенос текста */
         }
         .card h2 {
             font-size: 24px;
             margin-bottom: 15px;
             color: #fff;
-            text-align: center;
         }
         .card p {
             font-size: 16px;
             color: #ccc;
             margin-bottom: 10px;
             text-align: center;
-            overflow-wrap: break-word; /* Перенос текста */
         }
         .button {
             background-color: #ffdd2d;
@@ -67,7 +64,6 @@
             display: inline-block;
             transition: background-color 0.3s ease;
             margin-top: 15px;
-            white-space: nowrap; /* Предотвращает перенос текста в кнопке */
         }
         .button:hover {
             background-color: #ffcc00;
@@ -82,17 +78,11 @@
             .card {
                 width: 250px; /* Уменьшаем ширину карточек на мобильных устройствах */
             }
-            .button {
-                font-size: 14px; /* Уменьшаем размер шрифта кнопки */
-            }
         }
 
         @media (max-width: 480px) {
             .card {
                 width: 200px; /* Еще меньше для очень маленьких экранов */
-            }
-            .button {
-                font-size: 12px; /* Уменьшаем размер шрифта кнопки */
             }
         }
     </style>
