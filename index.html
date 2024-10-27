@@ -45,12 +45,18 @@
             font-size: 24px;
             margin-bottom: 15px;
             color: #fff;
+            text-align: center;
         }
-        .card p {
-            font-size: 16px;
+        .card ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
+        .card li {
+            font-size: 14px;
             color: #ccc;
             margin-bottom: 10px;
-            text-align: center;
         }
         .button {
             background-color: #ffdd2d;
@@ -78,11 +84,17 @@
             .card {
                 width: 250px; /* Уменьшаем ширину карточек на мобильных устройствах */
             }
+            .card li {
+                font-size: 12px; /* Уменьшаем размер шрифта для описания */
+            }
         }
 
         @media (max-width: 480px) {
             .card {
                 width: 200px; /* Еще меньше для очень маленьких экранов */
+            }
+            .card li {
+                font-size: 10px; /* Уменьшаем размер шрифта для описания */
             }
         }
     </style>
@@ -93,18 +105,22 @@
         <div class="card">
             <img src="https://i.postimg.cc/QCzxS25w/1ee8e710-7acf-404f-be50-a06eef393ddc.avif" alt="Тинькофф Black" class="card-image">
             <h2>ТБанк – Дебетовая карта Black Premium</h2>
-            <p>- До 8,64% годовых по вкладу</p>
-            <p>- Кешбэк до 60 000 ₽ в месяц</p>
-            <p>- Кешбэк 5% на рестораны</p>
+            <ul>
+                <li>- До 8,64% годовых по вкладу</li>
+                <li>- Кешбэк до 60 000 ₽ в месяц</li>
+                <li>- Кешбэк 5% на рестораны</li>
+            </ul>
             <a href="https://www.tbank.ru/cards/black-premium/" class="button" target="_blank">Оформить</a>
         </div>
 
         <div class="card">
             <img src="https://i.postimg.cc/YCGmc3CQ/876d378c-7cd4-4c6f-9b69-2d62af0375d1.png" alt="Тинькофф Platinum" class="card-image">
             <h2>ТБанк – Кредитная карта Platinum</h2>
-            <p>- Кэшбэк до 30% у партнеров</p>
-            <p>- Бесплатное обслуживание</p>
-            <p>- До 55 дней без процентов</p>
+            <ul>
+                <li>- Кэшбэк до 30% у партнеров</li>
+                <li>- Бесплатное обслуживание</li>
+                <li>- До 55 дней без процентов</li>
+            </ul>
             <a href="https://www.tinkoff.ru/cards/credit-cards/tinkoff-platinum/" class="button" target="_blank">Оформить</a>
         </div>
     </div>
