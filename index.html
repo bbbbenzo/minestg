@@ -12,9 +12,15 @@
             padding: 0;
             color: #fff;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             height: 100vh;
+        }
+        .header {
+            margin-bottom: 20px;
+            font-size: 28px;
+            color: #ffdd2d;
+            text-align: center;
         }
         .container {
             max-width: 1200px;
@@ -22,7 +28,7 @@
             padding: 20px;
             display: flex;
             justify-content: space-between;
-            flex-wrap: wrap;
+            overflow-x: auto; /* Позволяет прокручивать карточки при необходимости */
         }
         .card {
             background-color: #3c3c3c;
@@ -32,19 +38,13 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 48%;
-            margin-bottom: 20px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7);
+            width: 300px; /* Фиксированная ширина карточек */
+            margin: 0 10px; /* Убираем отступы между карточками */
         }
         .card h2 {
             font-size: 24px;
             margin-bottom: 15px;
             color: #fff;
-            text-align: center;
         }
         .card p {
             font-size: 16px;
@@ -72,31 +72,23 @@
             width: 100%;
             max-width: 200px;
             margin-bottom: 20px;
-            border-radius: 10px;
         }
 
         @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-                align-items: center;
-            }
             .card {
-                width: 90%;
+                width: 250px; /* Уменьшаем ширину карточек на мобильных устройствах */
             }
         }
 
         @media (max-width: 480px) {
             .card {
-                width: 100%;
-                margin-bottom: 30px;
-            }
-            .card-image {
-                max-width: 150px;
+                width: 200px; /* Еще меньше для очень маленьких экранов */
             }
         }
     </style>
 </head>
 <body>
+    <div class="header">Выберите предложение</div>
     <div class="container">
         <div class="card">
             <img src="https://i.postimg.cc/QCzxS25w/1ee8e710-7acf-404f-be50-a06eef393ddc.avif" alt="Тинькофф Black" class="card-image">
