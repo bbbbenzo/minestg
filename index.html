@@ -13,9 +13,14 @@
             height: 100vh;
             margin: 0;
             background: linear-gradient(135deg, #8a2be2, #4b0082, #00008b);
-            background-size: cover;
-            background-position: center;
+            background-size: 300% 300%;
+            animation: backgroundAnimation 10s ease infinite;
             color: #fff;
+        }
+        @keyframes backgroundAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
         .container {
             text-align: center;
@@ -23,6 +28,38 @@
             padding: 40px;
             border-radius: 15px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            transform: scale(1.1);
+            animation: scaleAnimation 0.5s ease forwards;
+        }
+        @keyframes scaleAnimation {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+            animation-delay: 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .choose {
+            background: linear-gradient(270deg, #a052be, #8a2be2, #4b0082);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientAnimation 3s linear infinite;
+        }
+        .game {
+            color: white;
+            text-transform: uppercase;
+        }
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
         }
         .game-grid {
             display: grid;
@@ -39,29 +76,27 @@
             padding: 20px;
             border-radius: 15px;
             transition: background-color 0.3s ease, transform 0.3s ease;
-            text-decoration: none; /* Убираем подчеркивание */
+            text-decoration: none;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
         }
         .game-item:hover {
             background-color: #6a1b9a;
             transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.5);
         }
         .game-item img {
             width: 80px;
             height: 80px;
             margin-bottom: 10px;
-            border-radius: 15px; /* Добавляем закругления к фотографиям */
+            border-radius: 15px;
             animation: glowAnimation 3s ease-in-out infinite;
         }
         @keyframes glowAnimation {
-            0% {
-                box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-            }
-            50% {
-                box-shadow: 0 0 20px rgba(255, 255, 255, 1);
-            }
-            100% {
-                box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-            }
+            0% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(255, 255, 255, 1); }
+            100% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
         }
         .game-item span {
             font-size: 1.2rem;
@@ -72,7 +107,9 @@
 </head>
 <body>
     <div class="container">
-        <h1>Выберите игру</h1>
+        <h1 class="title">
+            <span class="choose">ВЫБЕРИТЕ</span> <span class="game">ИГРУ</span>
+        </h1>
         <div class="game-grid">
             <a href="lucky.html" class="game-item">
                 <img src="https://i.postimg.cc/K4XLjKY9/F9-D84655-3-F74-4382-8-E82-7004-EC2-D0-F70.png" alt="Lucky Jet">
