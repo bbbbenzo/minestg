@@ -7,13 +7,15 @@ const trapLabel = document.getElementById('trapLabel');
 const title = document.getElementById('title');
 const languageModal = document.getElementById('languageModal');
 const languageButtons = document.querySelectorAll('.language-button');
-const backButton = document.getElementById('backButton'); // Добавляем ссылку на кнопку "Назад в меню"
+const backButton = document.getElementById('backButton');
 
 const rows = 5;
 const cols = 5;
 
 let trapCount = 1;
 let board = [];
+let isSignalButtonBlocked = false;
+let revealedCount = 0;
 
 function createBoard() {
     board = Array.from({ length: rows }, () => Array(cols).fill(0));
@@ -49,7 +51,7 @@ function revealStars() {
         cell.classList.remove('revealed');
     });
 
-    let revealedCount = 0;
+    revealedCount = 0;
 
     function revealNextStar() {
         if (revealedCount < starCount) {
@@ -64,9 +66,14 @@ function revealStars() {
             randomCell.appendChild(starImage);
             revealedCount++;
             setTimeout(revealNextStar, 500); // Задержка 500 мс между открытием звезд
+        } else {
+            isSignalButtonBlocked = false;
+            getSignalButton.disabled = false;
         }
     }
 
+    isSignalButtonBlocked = true;
+    getSignalButton.disabled = true;
     revealNextStar();
 }
 
@@ -85,6 +92,7 @@ increaseButton.addEventListener('click', () => {
 });
 
 getSignalButton.addEventListener('click', () => {
+    if (isSignalButtonBlocked) return;
     revealStars();
 });
 
@@ -101,12 +109,12 @@ function setLanguage(lang) {
         title.textContent = 'Mines Hack';
         trapLabel.textContent = 'Number of Traps';
         getSignalButton.textContent = 'Get Signal';
-        backButton.textContent = 'Back to Menu'; // Изменяем текст кнопки "Назад в меню" на английский
+        backButton.textContent = 'Back to Menu';
     } else if (lang === 'ru') {
         title.textContent = 'Mines Hack';
         trapLabel.textContent = 'Кол-во ловушек';
         getSignalButton.textContent = 'Получить сигнал';
-        backButton.textContent = 'Назад в меню'; // Возвращаем текст кнопки "Назад в меню" на русский
+        backButton.textContent = 'Назад в меню';
     }
 }
 
