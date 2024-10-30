@@ -1,147 +1,59 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Выберите предложение</title>
+    <title>Mines Hack</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #2c2c2c;
-            margin: 0;
-            padding: 0;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100vh;
-        }
-        .header {
-            margin-bottom: 20px;
-            font-size: 28px;
-            color: #fff;
-            text-align: center;
-            background-color: #3c3c3c;
-            padding: 10px 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            position: relative;
-            z-index: 1;
-        }
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            height: 100%;
-            background-color: #4c4c4c;
-            border-radius: 10px;
-            z-index: -1;
-        }
-        .container {
-            max-width: 1200px;
-            width: 100%;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            overflow-x: auto; /* Позволяет прокручивать карточки при необходимости */
-        }
-        .card {
-            background-color: #3c3c3c;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 300px; /* Фиксированная ширина карточек */
-            margin: 0 10px; /* Убираем отступы между карточками */
-        }
-        .card h2 {
-            font-size: 24px;
-            margin-bottom: 15px;
-            color: #fff;
-            text-align: center;
-        }
-        .card ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-            text-align: left; /* Выравниваем текст списка влево */
-            width: 100%; /* Задаем ширину для списка */
-        }
-        .card li {
-            font-size: 14px;
-            color: #ccc;
-            margin-bottom: 10px;
-        }
-        .button {
-            background-color: #ffdd2d;
-            color: #333;
-            padding: 8px 15px; /* Уменьшаем отступы для кнопки */
-            border: none;
-            border-radius: 15px; /* Закругляем углы кнопки */
+        .back-button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
             cursor: pointer;
-            font-size: 14px; /* Уменьшаем размер шрифта кнопки */
-            text-decoration: none;
+            background-color: #fff; /* Белый фон */
+            border: none;
+            border-radius: 50px;
+            color: #000; /* Черный текст */
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            margin-top: 20px;
+            text-decoration: none; /* Убираем подчеркивание */
             display: inline-block;
-            transition: background-color 0.3s ease;
-            margin-top: 15px;
+            position: absolute; /* Размещаем кнопку внизу */
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
         }
-        .button:hover {
-            background-color: #ffcc00;
-        }
-        .card-image {
-            width: 100%;
-            max-width: 200px;
-            margin-bottom: 20px;
-        }
-
-        @media (max-width: 768px) {
-            .card {
-                width: 250px; /* Уменьшаем ширину карточек на мобильных устройствах */
-            }
-            .card li {
-                font-size: 12px; /* Уменьшаем размер шрифта для описания */
-            }
-        }
-
-        @media (max-width: 480px) {
-            .card {
-                width: 200px; /* Еще меньше для очень маленьких экранов */
-            }
-            .card li {
-                font-size: 10px; /* Уменьшаем размер шрифта для описания */
-            }
+        .back-button:hover {
+            background-color: #f0f0f0; /* Светло-серый фон при наведении */
+            transform: scale(1.05) translateX(-50%);
         }
     </style>
 </head>
 <body>
-    <div class="header">Выберите предложение</div>
-    <div class="container">
-        <div class="card">
-            <img src="https://i.postimg.cc/QCzxS25w/1ee8e710-7acf-404f-be50-a06eef393ddc.avif" alt="Тинькофф Black" class="card-image">
-            <h2>ТБанк – Дебетовая карта Black Premium</h2>
-            <ul>
-                <li>- До 8,64% годовых по вкладу</li>
-                <li>- Кешбэк до 60 000 ₽ в месяц</li>
-                <li>- Кешбэк 5% на рестораны</li>
-            </ul>
-            <a href="https://www.tbank.ru/cards/black-premium/" class="button" target="_blank">Оформить</a>
-        </div>
-
-        <div class="card">
-            <img src="https://i.postimg.cc/YCGmc3CQ/876d378c-7cd4-4c6f-9b69-2d62af0375d1.png" alt="Тинькофф Platinum" class="card-image">
-            <h2>ТБанк – Кредитная карта Platinum</h2>
-            <ul>
-                <li>- Кэшбэк до 30% у партнеров</li>
-                <li>- Бесплатное обслуживание</li>
-                <li>- До 55 дней без процентов</li>
-            </ul>
-            <a href="https://www.tinkoff.ru/cards/credit-cards/tinkoff-platinum/" class="button" target="_blank">Оформить</a>
+    <div class="language-modal" id="languageModal">
+        <div class="modal-content">
+            <h2>Choose Language</h2>
+            <button class="language-button" data-lang="en">English</button>
+            <button class="language-button" data-lang="ru">Русский</button>
         </div>
     </div>
+
+    <div class="container">
+        <h1 id="title">Mines Hack</h1>
+        <div id="game-board"></div>
+        <div class="controls">
+            <span class="trap-label" id="trapLabel">Кол-во ловушек</span>
+            <div class="buttons">
+                <button id="decrease">-</button>
+                <span id="trap-count">1</span>
+                <button id="increase">+</button>
+            </div>
+        </div>
+        <button id="get-signal">Получить сигнал</button>
+    </div>
+    <a href="menu.html" class="back-button" id="backButton">Назад в меню</a>
+    <script src="script.js"></script>
 </body>
 </html>

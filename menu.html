@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Menu</title>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #8a2be2, #4b0082, #00008b);
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+        }
+        .container {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .game-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #8a2be2;
+            padding: 20px;
+            border-radius: 15px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            text-decoration: none; /* Убираем подчеркивание */
+        }
+        .game-item:hover {
+            background-color: #6a1b9a;
+            transform: scale(1.05);
+        }
+        .game-item img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 10px;
+            border-radius: 15px; /* Добавляем закругления к фотографиям */
+            animation: glowAnimation 3s ease-in-out infinite;
+        }
+        @keyframes glowAnimation {
+            0% {
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(255, 255, 255, 1);
+            }
+            100% {
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            }
+        }
+        .game-item span {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Выберите игру</h1>
+        <div class="game-grid">
+            <a href="lucky.html" class="game-item">
+                <img src="https://i.postimg.cc/K4XLjKY9/F9-D84655-3-F74-4382-8-E82-7004-EC2-D0-F70.png" alt="Lucky Jet">
+                <span>Lucky Jet</span>
+            </a>
+            <a href="index.html" class="game-item">
+                <img src="https://i.postimg.cc/XYbHDqgc/5411-F3-A7-A405-4-A3-B-9899-C14-DF9-C461-F4.png" alt="Mines Hack">
+                <span>Mines Hack</span>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

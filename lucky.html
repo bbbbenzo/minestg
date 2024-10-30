@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucky Jet Simulator</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            flex-direction: column;
+        }
+        .container {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        .signal-circle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, #8a2be2, #4b0082);
+            border-radius: 50%;
+            margin: 40px auto;
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.5);
+        }
+        .signal {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ffcc00;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: #8a2be2;
+            border: none;
+            border-radius: 50px;
+            color: #fff;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+        }
+        button:hover {
+            background-color: #6a1b9a;
+            transform: scale(1.05);
+        }
+        .title {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            animation: colorChange 5s infinite;
+        }
+        .title .lucky {
+            background: linear-gradient(135deg, #8a2be2, #4b0082);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-right: 10px;
+        }
+        .title .jet {
+            color: #fff;
+        }
+        @keyframes colorChange {
+            0% { color: #8a2be2; }
+            50% { color: #4b0082; }
+            100% { color: #8a2be2; }
+        }
+        .back-button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: #8a2be2;
+            border: none;
+            border-radius: 50px;
+            color: #fff;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            margin-top: 60px;
+            text-decoration: none; /* Убираем подчеркивание */
+        }
+        .back-button:hover {
+            background-color: #6a1b9a;
+            transform: scale(1.05);
+        }
+        .language-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: #000;
+        }
+        .language-button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            background-color: #8a2be2;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            transition: background-color 0.3s ease;
+        }
+        .language-button:hover {
+            background-color: #6a1b9a;
+        }
+    </style>
+</head>
+<body>
+    <div class="language-modal" id="languageModal">
+        <div class="modal-content">
+            <h2 id="languageTitle">Choose Language</h2>
+            <button class="language-button" data-lang="en">English</button>
+            <button class="language-button" data-lang="ru">Русский</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="title">
+            <span class="lucky">LUCKY</span>
+            <span class="jet">JET</span>
+        </div>
+        <div class="signal-circle">
+            <div class="signal" id="signal">0.00x</div>
+        </div>
+        <button id="showSignalButton" onclick="generateSignal()">Показать сигнал</button>
+    </div>
+    <a href="menu.html" class="back-button" id="backButton">Назад в меню</a>
+
+    <script>
+        function generateSignal() {
+            const signalElement = document.getElementById('signal');
+            const maxValue = 195;
+            const minValue = 0;
+            const rareThreshold = 100;
+
+            // Генерация случайного значения с логарифмическим распределением
+            let randomValue = Math.exp(Math.random() * Math.log(maxValue + 1));
+            randomValue = Math.min(randomValue, maxValue);
+
+            // Увеличиваем вероятность получения низких значений
+            if (randomValue > rareThreshold) {
+                randomValue = rareThreshold + (randomValue - rareThreshold) * 0.1;
+            }
+
+            randomValue = Math.round(randomValue * 100) / 100; // Округление до двух знаков после запятой
+            signalElement.textContent = randomValue.toFixed(2) + 'x';
+        }
+
+        // Загрузка фонового изображения по ссылке
+        const backgroundImageUrl = 'https://i.postimg.cc/prsyjpkQ/3.jpg'; // Замените на вашу ссылку на изображение
+        const img = new Image();
+        img.src = backgroundImageUrl;
+        img.onload = function() {
+            document.body.style.backgroundImage = `url(${backgroundImageUrl})`;
+        };
+        img.onerror = function() {
+            document.body.style.background = 'linear-gradient(135deg, #4b0082, #8a2be2)';
+        };
+
+        // Функция для изменения языка
+        function changeLanguage(lang) {
+            const backButton = document.getElementById('backButton');
+            const languageTitle = document.getElementById('languageTitle');
+            const showSignalButton = document.getElementById('showSignalButton');
+            if (lang === 'en') {
+                backButton.textContent = 'Back to Menu';
+                languageTitle.textContent = 'Choose Language';
+                showSignalButton.textContent = 'Get Signal';
+            } else if (lang === 'ru') {
+                backButton.textContent = 'Назад в меню';
+                languageTitle.textContent = 'Выберите язык';
+                showSignalButton.textContent = 'Показать сигнал';
+            }
+        }
+
+        // Обработчик событий для кнопок выбора языка
+        document.querySelectorAll('.language-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const lang = button.getAttribute('data-lang');
+                changeLanguage(lang);
+                document.getElementById('languageModal').style.display = 'none';
+            });
+        });
+
+        // Показываем модальное окно выбора языка при загрузке страницы
+        document.getElementById('languageModal').style.display = 'flex';
+    </script>
+</body>
+</html>
