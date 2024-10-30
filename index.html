@@ -1,40 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mines Hack</title>
     <link rel="stylesheet" href="styles.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            flex-direction: column;
+        }
+        .container {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
         .back-button {
             padding: 15px 30px;
             font-size: 1.2rem;
             font-weight: bold;
             cursor: pointer;
-            background-color: #fff; /* Белый фон */
+            background-color: #ffffff;
             border: none;
             border-radius: 50px;
-            color: #000; /* Черный текст */
+            color: #000000;
             transition: background-color 0.3s ease, transform 0.3s ease;
             font-family: 'Montserrat', sans-serif;
-            margin-top: 20px;
+            margin-top: 40px; /* Отступ сверху */
             text-decoration: none; /* Убираем подчеркивание */
-            display: inline-block;
-            position: absolute; /* Размещаем кнопку внизу */
-            bottom: 80px;
-            left: 50%;
-            transform: translateX(-50%);
         }
         .back-button:hover {
-            background-color: #f0f0f0; /* Светло-серый фон при наведении */
-            transform: scale(1.05) translateX(-50%);
+            background-color: #ffffff;
+            transform: scale(1.05);
         }
     </style>
 </head>
 <body>
     <div class="language-modal" id="languageModal">
         <div class="modal-content">
-            <h2>Choose Language</h2>
+            <h2>Выберите язык</h2>
             <button class="language-button" data-lang="en">English</button>
             <button class="language-button" data-lang="ru">Русский</button>
         </div>
@@ -53,7 +69,9 @@
         </div>
         <button id="get-signal">Получить сигнал</button>
     </div>
+
     <a href="menu.html" class="back-button" id="backButton">Назад в меню</a>
+
     <script src="script.js"></script>
 </body>
 </html>
