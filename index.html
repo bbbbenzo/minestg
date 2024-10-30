@@ -24,22 +24,6 @@
             border-radius: 15px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
         }
-        .user-info {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        .user-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-        .user-name {
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
         .game-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -88,9 +72,6 @@
 </head>
 <body>
     <div class="container">
-        <div class="user-info" id="user-info">
-            <!-- Здесь будет отображаться аватар и имя пользователя -->
-        </div>
         <h1>Выберите игру</h1>
         <div class="game-grid">
             <a href="lucky.html" class="game-item">
@@ -103,24 +84,5 @@
             </a>
         </div>
     </div>
-
-    <script>
-        // Функция для получения данных пользователя из Telegram WebApp API
-        function getTelegramUserData() {
-            if (window.Telegram && window.Telegram.WebApp) {
-                const user = window.Telegram.WebApp.initDataUnsafe.user;
-                if (user) {
-                    const userInfoElement = document.getElementById('user-info');
-                    userInfoElement.innerHTML = `
-                        <img src="${user.photo_url}" alt="User Avatar" class="user-avatar">
-                        <span class="user-name">${user.first_name} ${user.last_name}</span>
-                    `;
-                }
-            }
-        }
-
-        // Вызываем функцию при загрузке страницы
-        window.onload = getTelegramUserData;
-    </script>
 </body>
 </html>
