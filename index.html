@@ -123,10 +123,11 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            window.Telegram.WebApp.ready();
-            window.Telegram.WebApp.expand();
-        });
+        document.addEventListener('DOMContentLoaded', function () {
+      if (window.Telegram && window.Telegram.WebApp) {
+        window.Telegram.WebApp.expand();
+      }
+    });
     </script>
 </body>
 </html>
