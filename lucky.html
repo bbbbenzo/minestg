@@ -25,39 +25,60 @@
             padding: 40px;
             border-radius: 15px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            width: 80%;
+            max-width: 600px;
         }
-        .signal-circle {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, #8a2be2, #4b0082);
-            border-radius: 50%;
-            margin: 40px auto;
-            box-shadow: 0 0 20px rgba(138, 43, 226, 0.5);
+        .image-panel {
+            width: 100%;
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
         }
         .signal {
             font-size: 3rem;
             font-weight: bold;
-            color: #ffcc00;
+            color: #fff;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .signal-text {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            position: absolute;
+            top: 65%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
         button {
             padding: 15px 30px;
             font-size: 1.2rem;
             font-weight: bold;
             cursor: pointer;
-            background-color: #8a2be2;
+            background-color: #fff;
             border: none;
             border-radius: 50px;
-            color: #fff;
-            transition: background-color 0.3s ease, transform 0.3s ease;
+            color: #000;
+            transition: background-color 0.3s ease;
             font-family: 'Montserrat', sans-serif;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
         }
         button:hover {
-            background-color: #6a1b9a;
-            transform: scale(1.05);
+            background-color: #f0f0f0;
         }
         .title {
             font-size: 3rem;
@@ -90,14 +111,13 @@
             border: none;
             border-radius: 50px;
             color: #fff;
-            transition: background-color 0.3s ease, transform 0.3s ease;
+            transition: background-color 0.3s ease;
             font-family: 'Montserrat', sans-serif;
             margin-top: 60px;
-            text-decoration: none; /* Убираем подчеркивание */
+            text-decoration: none;
         }
         .back-button:hover {
             background-color: #6a1b9a;
-            transform: scale(1.05);
         }
         .language-modal {
             display: none;
@@ -109,6 +129,7 @@
             background: rgba(0, 0, 0, 0.7);
             justify-content: center;
             align-items: center;
+            z-index: 1000; /* Убедитесь, что панель выбора языка находится поверх всего остального */
         }
         .modal-content {
             background: #fff;
@@ -131,6 +152,22 @@
         .language-button:hover {
             background-color: #6a1b9a;
         }
+        .button-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: linear-gradient(135deg, #8a2be2, #ff14c8);
+            animation: fillButton 3s forwards;
+        }
+        @keyframes fillButton {
+            0% { width: 0; }
+            100% { width: 100%; }
+        }
+        button.disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
     </style>
 </head>
 <body>
@@ -147,35 +184,55 @@
             <span class="lucky">LUCKY</span>
             <span class="jet">JET</span>
         </div>
-        <div class="signal-circle">
-            <div class="signal" id="signal">0.00x</div>
+        <div class="image-panel" id="imagePanel">
+            <span class="signal" id="signal">0.00x</span>
+            <span class="signal-text" id="signalText">УЛЕТЕЛ</span>
         </div>
-        <button id="showSignalButton" onclick="generateSignal()">Показать сигнал</button>
+        <button id="showSignalButton" onclick="showSignal()">Показать сигнал</button>
     </div>
     <a href="index.html" class="back-button" id="backButton">Назад в меню</a>
 
     <script>
-        function generateSignal() {
+        let signalTimeout;
+
+        function showSignal() {
             const signalElement = document.getElementById('signal');
+            const signalText = document.getElementById('signalText');
+            const showSignalButton = document.getElementById('showSignalButton');
+
+            // Делаем кнопку неактивной
+            showSignalButton.classList.add('disabled');
+
+            // Генерация случайного значения с логарифмическим распределением
             const maxValue = 195;
             const minValue = 0;
             const rareThreshold = 100;
 
-            // Генерация случайного значения с логарифмическим распределением
             let randomValue = Math.exp(Math.random() * Math.log(maxValue + 1));
             randomValue = Math.min(randomValue, maxValue);
 
-            // Увеличиваем вероятность получения низких значений
             if (randomValue > rareThreshold) {
                 randomValue = rareThreshold + (randomValue - rareThreshold) * 0.1;
             }
 
             randomValue = Math.round(randomValue * 100) / 100; // Округление до двух знаков после запятой
+
+            // Показываем сигнал сразу
             signalElement.textContent = randomValue.toFixed(2) + 'x';
+            signalElement.style.opacity = 1;
+            signalText.style.opacity = 1;
+
+            // Делаем кнопку активной через 3 секунды
+            clearTimeout(signalTimeout);
+            signalTimeout = setTimeout(() => {
+                showSignalButton.classList.remove('disabled');
+            }, 3000);
         }
 
         // Загрузка фонового изображения по ссылке
         const backgroundImageUrl = 'https://i.postimg.cc/prsyjpkQ/3.jpg'; // Замените на вашу ссылку на изображение
+        const imagePanelImageUrl = 'https://i.postimg.cc/L4L31NWy/photo-2024-11-07-13-32-37-3.png'; // Замените на вашу ссылку на изображение для панели
+
         const img = new Image();
         img.src = backgroundImageUrl;
         img.onload = function() {
@@ -185,19 +242,32 @@
             document.body.style.background = 'linear-gradient(135deg, #4b0082, #8a2be2)';
         };
 
+        const imgPanel = new Image();
+        imgPanel.src = imagePanelImageUrl;
+        imgPanel.onload = function() {
+            document.getElementById('imagePanel').style.backgroundImage = `url(${imagePanelImageUrl})`;
+        };
+        imgPanel.onerror = function() {
+            document.getElementById('imagePanel').style.background = 'linear-gradient(135deg, #4b0082, #8a2be2)';
+        };
+
         // Функция для изменения языка
         function changeLanguage(lang) {
             const backButton = document.getElementById('backButton');
             const languageTitle = document.getElementById('languageTitle');
             const showSignalButton = document.getElementById('showSignalButton');
+            const signalText = document.getElementById('signalText');
+
             if (lang === 'en') {
                 backButton.textContent = 'Back to Menu';
                 languageTitle.textContent = 'Choose Language';
                 showSignalButton.textContent = 'Get Signal';
+                signalText.textContent = 'FLY AWAY';
             } else if (lang === 'ru') {
                 backButton.textContent = 'Назад в меню';
                 languageTitle.textContent = 'Выберите язык';
                 showSignalButton.textContent = 'Показать сигнал';
+                signalText.textContent = 'УЛЕТЕЛ';
             }
         }
 
@@ -207,11 +277,13 @@
                 const lang = button.getAttribute('data-lang');
                 changeLanguage(lang);
                 document.getElementById('languageModal').style.display = 'none';
+                document.getElementById('showSignalButton').classList.remove('disabled');
             });
         });
 
         // Показываем модальное окно выбора языка при загрузке страницы
         document.getElementById('languageModal').style.display = 'flex';
+        document.getElementById('showSignalButton').classList.add('disabled');
     </script>
 </body>
 </html>
