@@ -107,12 +107,12 @@ languageButtons.forEach(button => {
 function setLanguage(lang) {
     if (lang === 'en') {
         title.textContent = 'Mines Hack';
-        trapLabel.textContent = 'Number of Traps';
+        trapLabel.textContent = 'NUMBER OF TRAPS'; // Делаем текст капсом
         getSignalButton.textContent = 'Get Signal';
         backButton.textContent = 'Back to Menu';
     } else if (lang === 'ru') {
         title.textContent = 'Mines Hack';
-        trapLabel.textContent = 'Кол-во ловушек';
+        trapLabel.textContent = 'КОЛ-ВО ЛОВУШЕК'; // Делаем текст капсом
         getSignalButton.textContent = 'Получить сигнал';
         backButton.textContent = 'Назад в меню';
     }
