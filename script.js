@@ -1,121 +1,153 @@
-const gameBoard = document.getElementById('game-board');
-const decreaseButton = document.getElementById('decrease');
-const increaseButton = document.getElementById('increase');
-const trapCountSpan = document.getElementById('trap-count');
-const getSignalButton = document.getElementById('get-signal');
-const trapLabel = document.getElementById('trapLabel');
-const title = document.getElementById('title');
-const languageModal = document.getElementById('languageModal');
-const languageButtons = document.querySelectorAll('.language-button');
-const backButton = document.getElementById('backButton');
-
-const rows = 5;
-const cols = 5;
-
-let trapCount = 1;
-let board = [];
-let isSignalButtonBlocked = false;
-let revealedCount = 0;
-
-function createBoard() {
-    board = Array.from({ length: rows }, () => Array(cols).fill(0));
-    renderBoard();
-}
-
-function renderBoard() {
-    gameBoard.innerHTML = '';
-    for (let row = 0; row < rows; row++) {
-        for (let col = 0; col < cols; col++) {
-            const cell = document.createElement('div');
-            cell.classList.add('cell');
-            cell.dataset.row = row;
-            cell.dataset.col = col;
-            gameBoard.appendChild(cell);
-        }
+document.addEventListener('DOMContentLoaded', function () {
+    const cellsBoard = document.querySelector('.cells-board');
+    if (!cellsBoard) {
+      console.error('Элемент .cells-board не найден.');
+      return;
     }
-}
+  
+    let originalState = cellsBoard.innerHTML;
+  
+    const params = new URLSearchParams(window.location.search);
+    const botName = params.get('botName') || 'Unknown';
+    const language = params.get('language') || 'en';
 
-function revealStars() {
-    const starCounts = {
-        1: 10,
-        3: 5,
-        5: 4,
-        7: 3
+    const botNameElement = document.getElementById('botName');
+    if (botNameElement) {
+      botNameElement.textContent = botName;
+      botNameElement.style.display = 'block';
+      botNameElement.style.color = 'white';
+    }
+  
+    function hidePreloader() {
+      const preloader = document.querySelector('.preloader');
+      if (preloader) {
+        preloader.classList.remove('fade-in');
+        setTimeout(() => {
+          preloader.style.display = 'none';
+          document.body.classList.remove('hidden');
+          document.body.classList.add('fade-in');
+        }, 1000);
+      }
+    }
+    setTimeout(hidePreloader, 3000);
+  
+    const trapsOptions = [1, 3, 5, 7];
+    const trapsToCellsOpenMapping = {
+      1: 10,
+      3: 5,
+      5: 4,
+      7: 3
     };
+    let currentPresetIndex = 0;
+    const trapsAmountElement = document.getElementById('trapsAmount');
+    const prevPresetBtn = document.getElementById('prev_preset_btn');
+    const nextPresetBtn = document.getElementById('next_preset_btn');
 
-    const starCount = starCounts[trapCount];
-    const cells = document.querySelectorAll('.cell');
-    cells.forEach(cell => {
-        cell.innerHTML = '';
-        cell.classList.remove('star');
-        cell.classList.remove('revealed');
-    });
-
-    revealedCount = 0;
-
-    function revealNextStar() {
-        if (revealedCount < starCount) {
-            let randomCell;
-            do {
-                randomCell = cells[Math.floor(Math.random() * cells.length)];
-            } while (randomCell.classList.contains('star'));
-            randomCell.classList.add('star');
-            randomCell.classList.add('revealed');
-            const starImage = document.createElement('img');
-            starImage.src = 'https://i.postimg.cc/TwmFJgGD/star-sprite.png'; // Замените на вашу ссылку на изображение звезды
-            randomCell.appendChild(starImage);
-            revealedCount++;
-            setTimeout(revealNextStar, 500); // Задержка 500 мс между открытием звезд
-        } else {
-            isSignalButtonBlocked = false;
-            getSignalButton.disabled = false;
+    function updateTrapsAmount() {
+      if (trapsAmountElement) {
+        trapsAmountElement.textContent = trapsOptions[currentPresetIndex];
+      }
+    }
+  
+    if (prevPresetBtn) {
+      prevPresetBtn.addEventListener('click', function () {
+        if (currentPresetIndex > 0) {
+          currentPresetIndex--;
+          updateTrapsAmount();
         }
+      });
+    }
+    if (nextPresetBtn) {
+      nextPresetBtn.addEventListener('click', function () {
+        if (currentPresetIndex < trapsOptions.length - 1) {
+          currentPresetIndex++;
+          updateTrapsAmount();
+        }
+      });
+    }
+    updateTrapsAmount();
+  
+    function attachCellClickListeners() {
+      const cells = document.querySelectorAll('.cells-board .cell');
+      cells.forEach(cell => {
+        cell.addEventListener('click', () => {
+          cell.style.transform = 'scale(0.7)';
+          setTimeout(() => {
+            cell.style.transform = 'scale(1)';
+          }, 200);
+        });
+      });
+    }
+  
+    let isFirstPlay = true;
+
+    const playButton = document.getElementById('playButton');
+    if (playButton) {
+      playButton.addEventListener('click', function () {
+        playButton.disabled = true;
+  
+        let cells = document.querySelectorAll('.cells-board .cell');
+
+        if (!isFirstPlay) {
+          cellsBoard.innerHTML = originalState;
+          attachCellClickListeners();
+          cells = document.querySelectorAll('.cells-board .cell');
+        }
+
+        const trapsAmount = parseInt(trapsAmountElement.textContent);
+        const cellsToOpen = trapsToCellsOpenMapping[trapsAmount] || 0;
+        const selectedCells = [];
+  
+        while (selectedCells.length < cellsToOpen) {
+          const randomIndex = Math.floor(Math.random() * cells.length);
+          if (!selectedCells.includes(randomIndex)) {
+            selectedCells.push(randomIndex);
+          }
+        }
+
+        let starIndex = 0;
+        function animateStars() {
+          if (starIndex < selectedCells.length) {
+            const index = selectedCells[starIndex];
+            const cell = cells[index];
+
+            cell.classList.add('cell-fade-out');
+  
+             setTimeout(() => {
+              cell.innerHTML = '';
+              const newImg = document.createElement('img');
+              newImg.setAttribute('width', '40');
+              newImg.setAttribute('height', '40');
+              newImg.style.opacity = '0';
+              newImg.style.transform = 'scale(0)';
+              newImg.src = 'img/stars.svg';
+              newImg.classList.add('star-animation');
+              cell.appendChild(newImg);
+              setTimeout(() => {
+                newImg.classList.add('fade-in');
+              }, 50);
+              cell.classList.remove('cell-fade-out');
+            }, 500);
+  
+            starIndex++;
+            setTimeout(animateStars, 650);
+          } else {
+            playButton.disabled = false;
+
+            if (isFirstPlay) {
+              isFirstPlay = false;
+            }
+          }
+        }
+        animateStars();
+      });
     }
 
-    isSignalButtonBlocked = true;
-    getSignalButton.disabled = true;
-    revealNextStar();
-}
-
-decreaseButton.addEventListener('click', () => {
-    if (trapCount > 1) {
-        trapCount -= 2;
-        trapCountSpan.textContent = trapCount;
+    // Обработчик для кнопки "Назад в меню"
+    const backToMenuButton = document.getElementById('backToMenuButton');
+    if (backToMenuButton) {
+        backToMenuButton.addEventListener('click', function () {
+            window.location.href = 'index.html';
+        });
     }
 });
-
-increaseButton.addEventListener('click', () => {
-    if (trapCount < 7) {
-        trapCount += 2;
-        trapCountSpan.textContent = trapCount;
-    }
-});
-
-getSignalButton.addEventListener('click', () => {
-    if (isSignalButtonBlocked) return;
-    revealStars();
-});
-
-languageButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        const lang = button.dataset.lang;
-        setLanguage(lang);
-        languageModal.style.display = 'none';
-    });
-});
-
-function setLanguage(lang) {
-    if (lang === 'en') {
-        title.textContent = 'Mines Hack';
-        trapLabel.textContent = 'NUMBER OF TRAPS'; // Делаем текст капсом
-        getSignalButton.textContent = 'Get Signal';
-        backButton.textContent = 'Back to Menu';
-    } else if (lang === 'ru') {
-        title.textContent = 'Mines Hack';
-        trapLabel.textContent = 'КОЛ-ВО ЛОВУШЕК'; // Делаем текст капсом
-        getSignalButton.textContent = 'Получить сигнал';
-        backButton.textContent = 'Назад в меню';
-    }
-}
-
-createBoard();
